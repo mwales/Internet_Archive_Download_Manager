@@ -108,3 +108,48 @@ void FileCollection::setAlreadyDownloaded(bool state, int n)
    theMDList[n].alreadyDownloaded = state;
 
 }
+
+FileMetaData const * FileCollection::getNextFileToDownload()
+{
+   for(int i = 0; i < theMDList.size(); i++)
+   {
+      FileMetaData* curData = &theMDList.data()[i];
+      if (curData->markedForDownload && !curData->alreadyDownloaded)
+      {
+         return curData;
+      }
+   }
+
+   // There are no more files to download, return nullptr
+   return nullptr;
+}
+
+void FileCollection::setDownloadComplete(FileMetaData const * md)
+{
+   for(int i = 0; i < theMDList.size(); i++)
+   {
+      if (&theMDList.data()[i] == md)
+      {
+         theMDList.data()[i].alreadyDownloaded = true;
+         return;
+      }
+   }
+}
+
+int FileCollection::getNumberOfDownloadedFiles()
+{
+   int numDownloaded = 0;
+   foreach(auto mdEntry, theMDList)
+   {
+      if (mdEntry.alreadyDownloaded)
+      {
+         numDownloaded++;
+      }
+   }
+   return numDownloaded;
+}
+
+void FileCollection::clearCollection()
+{
+   theMDList.clear();
+}

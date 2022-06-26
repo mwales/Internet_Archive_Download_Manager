@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QString>
 #include <QProcess>
+#include <QTableWidgetItem>
+#include <QTimer>
 
 #include "ConfigData.h"
 #include "FileCollection.h"
@@ -36,19 +38,49 @@ private slots:
 
    void metadataDownloadCompleteError(QProcess::ProcessError error);
 
+   void metadataCellItemChanged(QTableWidgetItem* item);
+
+   void startDownloading();
+
+   void fileDownloadStatusUpdate();
+
+   void fileDownloadComplete(int exitCode, QProcess::ExitStatus exitStatus);
+
+   void fileDownloadCompleteError(QProcess::ProcessError error);
+
 protected:
 
-   void refreshConfigurationData();
+   void updateCheckedSizes();
 
    void processMetadata(QByteArray metadataText);
 
    void updateTableWidget();
+
+   void updateProgressBars();
+
+   void startDownloadNextFile();
+
+   QString processErrorString(QProcess::ProcessError err);
 
    ConfigData theCfg;
 
    QProcess theMetadataDownloadProcess;
 
    FileCollection theMD;
+
+   QSet<int> theMDItemsChecked;
+
+   int64_t theNumberBytesCompletedFiles;
+   int64_t theNumberBytesCurrentFile;
+
+   FileMetaData const * theCurrentFileDownloading;
+
+   // Timer used to call fileDownloadStatusUpdate periodically
+   QTimer theFileDownloadUpdateTimer;
+
+   QProcess theFileDownloadProcess;
+
+   QString theDestDir;
 
 private:
    Ui::MainWindow *ui;

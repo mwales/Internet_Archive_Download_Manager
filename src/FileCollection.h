@@ -51,6 +51,14 @@ public:
 
    void setAlreadyDownloaded(bool state, int n);
 
+   void setDownloadComplete(FileMetaData const * md);
+
+   FileMetaData const * getNextFileToDownload();
+
+   int getNumberOfDownloadedFiles();
+
+   void clearCollection();
+
 protected:
 
    QVector<FileMetaData> theMDList;
