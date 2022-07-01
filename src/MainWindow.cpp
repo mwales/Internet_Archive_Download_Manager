@@ -76,8 +76,10 @@ void MainWindow::showAboutQt()
 
 void MainWindow::showAboutTool()
 {
-   QMessageBox::about(this, "About Internet Archive Download Manager",
-                      "v0.1 - Lets download some ROMs\n\nBy: boot_force");
+   QMessageBox::about(this, "About I.A.D.M.",
+                      "<h2>Internet Archive Download Manager</h2>\n\n"
+                      "<p>v0.1 - Lets download some ROMs</p>\n"
+                      "<p>By: boot_force</p>");
 }
 
 void MainWindow::showConfigureWindow()
@@ -338,6 +340,7 @@ void MainWindow::startDownloadNextFile()
                                 .arg(theCurrentFileDownloading->filename));
    args.append(QString("--destdir=%1").arg(theDestDir));
    args.append("-C"); // checksum
+
    theFileDownloadProcess.setArguments(args);
    theFileDownloadProcess.start();
 

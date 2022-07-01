@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>I.A.D.M.</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -124,7 +124,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="theAboutToolAction">
    <property name="text">
-    <string>About Tool</string>
+    <string>About I.A.D.M.</string>
    </property>
   </action>
   <action name="theConfigureAction">

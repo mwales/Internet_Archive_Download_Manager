@@ -14,8 +14,6 @@ const QString DOWNLOAD_SWITCHES_SETTING_NAME = "download_extra_switches";
 ConfigData::ConfigData()
 {
    theCfgPathToIaTool = "./ia";
-   theCfgExtraMetadataSwitches = "";
-   theCfgExtraDownloadSwitches = "";
 
    theSettings = new QSettings(ORG_NAME, APP_NAME);
 
@@ -32,16 +30,21 @@ void ConfigData::refreshConfigurationData()
    if (configKeys.contains(TOOL_LOCATION_SETTING_NAME))
    {
       theCfgPathToIaTool = theSettings->value(TOOL_LOCATION_SETTING_NAME, "error_with_config").toString();
+      qDebug() << "Config IA Path=" << theCfgPathToIaTool;
    }
 
    if (configKeys.contains(METADATA_SWITCHES_SETTING_NAME))
    {
-      theCfgExtraMetadataSwitches = theSettings->value(METADATA_SWITCHES_SETTING_NAME, "error_with_config").toString();
+      QString value = theSettings->value(METADATA_SWITCHES_SETTING_NAME, "error_with_config").toString();
+      qDebug() << "Config Metadata Arg =" << value;
+      theCfgExtraMetadataSwitches =  value.split("&");
    }
 
    if (configKeys.contains(DOWNLOAD_SWITCHES_SETTING_NAME))
    {
-      theCfgExtraDownloadSwitches = theSettings->value(DOWNLOAD_SWITCHES_SETTING_NAME, "error_with_config").toString();
+      QString value = theSettings->value(DOWNLOAD_SWITCHES_SETTING_NAME, "error_with_config").toString();
+      qDebug() << "Config Download Arg =" << value;
+      theCfgExtraDownloadSwitches =  value.split("&");
    }
 }
 
@@ -50,12 +53,12 @@ QString ConfigData::getPathToIaTool()
    return theCfgPathToIaTool;
 }
 
-QString ConfigData::getMetadataSwitches()
+QStringList ConfigData::getMetadataSwitches()
 {
    return theCfgExtraMetadataSwitches;
 }
 
-QString ConfigData::getDownloadSwitches()
+QStringList ConfigData::getDownloadSwitches()
 {
    return theCfgExtraDownloadSwitches;
 }
@@ -71,24 +74,24 @@ void ConfigData::setPathToIaTool(QString path)
    }
 }
 
-void ConfigData::setMetadataSwitches(QString text)
+void ConfigData::setMetadataSwitches(QStringList argList)
 {
-   if (text != theCfgExtraMetadataSwitches)
+   if (argList != theCfgExtraMetadataSwitches)
    {
-      qDebug() << "Metadata configuration updated to: " << text;
-      theCfgExtraMetadataSwitches = text;
-      theSettings->setValue(METADATA_SWITCHES_SETTING_NAME, theCfgExtraMetadataSwitches);
+      qDebug() << "Metadata configuration updated to: " << argList;
+      theCfgExtraMetadataSwitches = argList;
+      theSettings->setValue(METADATA_SWITCHES_SETTING_NAME, theCfgExtraMetadataSwitches.join("&"));
       theSettings->sync();
    }
 }
 
-void ConfigData::setDownloadSwitches(QString text)
+void ConfigData::setDownloadSwitches(QStringList argList)
 {
-   if (text != theCfgExtraDownloadSwitches)
+   if (argList != theCfgExtraDownloadSwitches)
    {
-      qDebug() << "Download switches updated to: " << text;
-      theCfgExtraDownloadSwitches = text;
-      theSettings->setValue(DOWNLOAD_SWITCHES_SETTING_NAME, theCfgExtraDownloadSwitches);
+      qDebug() << "Download switches updated to: " << argList;
+      theCfgExtraDownloadSwitches = argList;
+      theSettings->setValue(DOWNLOAD_SWITCHES_SETTING_NAME, theCfgExtraDownloadSwitches.join("&"));
       theSettings->sync();
    }
 }

@@ -22,6 +22,14 @@ protected slots:
 
    void selectFileForIaTool();
 
+   void addMetadataArg();
+
+   void removeMetadataArg();
+
+   void addDownloadArg();
+
+   void removeDownloadArg();
+
 protected:
 
    ConfigData* theCfg;

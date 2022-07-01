@@ -14,21 +14,21 @@ public:
 
    QString getPathToIaTool();
 
-   QString getMetadataSwitches();
+   QStringList getMetadataSwitches();
 
-   QString getDownloadSwitches();
+   QStringList getDownloadSwitches();
 
    void setPathToIaTool(QString path);
 
-   void setMetadataSwitches(QString text);
+   void setMetadataSwitches(QStringList argList);
 
-   void setDownloadSwitches(QString text);
+   void setDownloadSwitches(QStringList argList);
 
 protected:
 
    QString theCfgPathToIaTool;
-   QString theCfgExtraMetadataSwitches;
-   QString theCfgExtraDownloadSwitches;
+   QStringList theCfgExtraMetadataSwitches;
+   QStringList theCfgExtraDownloadSwitches;
 
    QSettings* theSettings;
 };
